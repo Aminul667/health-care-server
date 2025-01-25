@@ -3,7 +3,7 @@ import { userService } from "./user.service";
 
 // request and response are handled by controller
 const createAdmin = async (req: Request, res: Response) => {
-  const result = await userService.createAdmin();
+  const result = await userService.createAdmin(req.body);
 
   res.send(result);
 };
