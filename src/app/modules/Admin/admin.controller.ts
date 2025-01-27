@@ -3,6 +3,7 @@ import { AdminService } from "./admin.service";
 import pick from "../../../shared/pick";
 import { adminFilterableFields } from "./admin.constant";
 import sendResponse from "../../../shared/sendResponse";
+import httpStatus from "http-status";
 
 const getAllFromDB = async (req: Request, res: Response) => {
   try {
@@ -14,7 +15,7 @@ const getAllFromDB = async (req: Request, res: Response) => {
     const result = await AdminService.getAllFromDB(filters, options);
 
     sendResponse(res, {
-      statusCode: 200,
+      statusCode: httpStatus.OK,
       success: true,
       message: "Admin data fetched",
       meta: result.meta,
@@ -35,7 +36,7 @@ const getByIdFromDB = async (req: Request, res: Response) => {
   try {
     const result = await AdminService.getByIdFromDB(id);
     sendResponse(req, {
-      statusCode: 200,
+      statusCode: httpStatus.OK,
       success: true,
       message: "Admin data fetched by ID",
       data: result,
@@ -58,7 +59,7 @@ const updateIntoDB = async (req: Request, res: Response) => {
   try {
     const result = await AdminService.updateIntoDB(id, req.body);
     sendResponse(res, {
-      statusCode: 200,
+      statusCode: httpStatus.OK,
       success: true,
       message: "Admin data updated by",
       data: result,
@@ -81,7 +82,7 @@ const deleteFromDB = async (req: Request, res: Response) => {
     const result = await AdminService.deleteFromDB(id);
 
     sendResponse(res, {
-      statusCode: 200,
+      statusCode: httpStatus.OK,
       success: true,
       message: "Admin data deleted",
       data: result,
@@ -104,7 +105,7 @@ const softDeleteFromDb = async (req: Request, res: Response) => {
     const result = await AdminService.softDeleteFromDb(id);
 
     sendResponse(res, {
-      statusCode: 200,
+      statusCode: httpStatus.OK,
       success: true,
       message: "Admin data deleted",
       data: result,
