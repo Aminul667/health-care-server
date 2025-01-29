@@ -1,4 +1,4 @@
-import { Admin, Prisma, PrismaClient, UserStatus } from "@prisma/client";
+import { Admin, Prisma, UserStatus } from "@prisma/client";
 import { adminSearchableFields } from "./admin.constant";
 import { paginationHelper } from "../../../helpers/paginationHelper";
 import prisma from "../../../shared/prisma";
@@ -9,11 +9,13 @@ const getAllFromDB = async (
   params: IAdminFilterRequest,
   options: IPaginationOptions
 ) => {
-  const { limit, page, skip } = paginationHelper.calculatePagination(options);
+  console.log(options);
+  const { page, limit, skip } = paginationHelper.calculatePagination(options);
   const { searchTerm, ...filterData } = params;
 
   const andConditions: Prisma.AdminWhereInput[] = [];
 
+  //console.log(filterData);
   if (params.searchTerm) {
     andConditions.push({
       OR: adminSearchableFields.map((field) => ({
@@ -39,6 +41,7 @@ const getAllFromDB = async (
     isDeleted: false,
   });
 
+  //console.dir(andConditions, { depth: 'inifinity' })
   const whereConditions: Prisma.AdminWhereInput = { AND: andConditions };
 
   const result = await prisma.admin.findMany({
@@ -59,7 +62,14 @@ const getAllFromDB = async (
     where: whereConditions,
   });
 
-  return { meta: { page, limit, total }, data: result };
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 const getByIdFromDB = async (id: string): Promise<Admin | null> => {
@@ -108,7 +118,7 @@ const deleteFromDB = async (id: string): Promise<Admin | null> => {
       },
     });
 
-    const userDeletedData = await transactionClient.user.delete({
+    await transactionClient.user.delete({
       where: {
         email: adminDeletedData.email,
       },
@@ -120,7 +130,7 @@ const deleteFromDB = async (id: string): Promise<Admin | null> => {
   return result;
 };
 
-const softDeleteFromDb = async (id: string): Promise<Admin | null> => {
+const softDeleteFromDB = async (id: string): Promise<Admin | null> => {
   await prisma.admin.findUniqueOrThrow({
     where: {
       id,
@@ -158,5 +168,5 @@ export const AdminService = {
   getByIdFromDB,
   updateIntoDB,
   deleteFromDB,
-  softDeleteFromDb,
+  softDeleteFromDB,
 };

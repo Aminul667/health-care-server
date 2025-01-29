@@ -6,22 +6,23 @@ import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import catchAsync from "../../../shared/catchAsync";
 
-const getAllFromDB: RequestHandler = catchAsync(async (req, res) => {
-  const filters = pick(req.query, adminFilterableFields);
-  const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+const getAllFromDB: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    // console.log(req.query)
+    const filters = pick(req.query, adminFilterableFields);
+    const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+    console.log(options);
+    const result = await AdminService.getAllFromDB(filters, options);
 
-  console.log(options);
-
-  const result = await AdminService.getAllFromDB(filters, options);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Admin data fetched",
-    meta: result.meta,
-    data: result.data,
-  });
-});
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Admin data fetched!",
+      meta: result.meta,
+      data: result.data,
+    });
+  }
+);
 
 const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -30,7 +31,7 @@ const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Admin data fetched by ID",
+    message: "Admin data fetched by id!",
     data: result,
   });
 });
@@ -42,7 +43,7 @@ const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Admin data updated by",
+    message: "Admin data updated!",
     data: result,
   });
 });
@@ -50,29 +51,23 @@ const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
 const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  console.log({ id });
-
   const result = await AdminService.deleteFromDB(id);
-
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Admin data deleted",
+    message: "Admin data deleted!",
     data: result,
   });
 });
 
-const softDeleteFromDb = catchAsync(async (req: Request, res: Response) => {
+const softDeleteFromDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  console.log({ id });
-
-  const result = await AdminService.softDeleteFromDb(id);
-
+  const result = await AdminService.softDeleteFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Admin data deleted",
+    message: "Admin data deleted!",
     data: result,
   });
 });
@@ -82,5 +77,5 @@ export const AdminController = {
   getByIdFromDB,
   updateIntoDB,
   deleteFromDB,
-  softDeleteFromDb,
+  softDeleteFromDB,
 };

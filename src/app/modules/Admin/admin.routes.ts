@@ -18,6 +18,6 @@ router.patch(
 
 router.delete("/:id", AdminController.deleteFromDB);
 
-router.delete("/soft/:id", AdminController.softDeleteFromDb);
+router.delete("/soft/:id", AdminController.softDeleteFromDB);
 
 export const AdminRoutes = router;
