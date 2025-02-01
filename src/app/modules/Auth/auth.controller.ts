@@ -33,7 +33,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Logged in successfully!",
+    message: "Access token generated successfully!",
     data: result,
   });
 });
@@ -46,7 +46,7 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Logged in successfully!",
+    message: "Password Changed Successfully",
     data: result,
   });
 });
