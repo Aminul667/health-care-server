@@ -5,7 +5,7 @@ import httpStatus from "http-status";
 import { SpecialtiesService } from "./specialties.service";
 
 const inserIntoDB = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.body);
+  // console.log(req.body);
   const result = await SpecialtiesService.inserIntoDB(req);
 
   sendResponse(res, {
